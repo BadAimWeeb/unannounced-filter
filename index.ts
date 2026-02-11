@@ -10,7 +10,9 @@ const rl = readline.createInterface({
     input: stream.Readable.fromWeb(DATA.body!)
 });
 
-fs.unlinkSync("blacklist.txt"); // Remove existing blacklist if it exists
+try {
+    fs.unlinkSync("blacklist.txt"); // Remove existing blacklist if it exists
+} catch { }
 const feedOut = fs.createWriteStream("blacklist.txt", { flush: true, flags: "w" });
 
 let startAddress = 0x1000000n;
@@ -55,11 +57,11 @@ const ev = (line: string) => {
                     case "192.0.0.0/24":
                         //console.log(`Skipped: ${cidrNotation}`);
                         break;
-                    default: 
+                    default:
                         feedOut.write(cidrNotation + "\n");
-                        //console.log(`Blacklisted: ${cidrNotation}`);
+                    //console.log(`Blacklisted: ${cidrNotation}`);
                 }
-                
+
                 current += BigInt(1) << BigInt(32 - prefixLength);
             }
         }
