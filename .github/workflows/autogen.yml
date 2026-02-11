@@ -1,6 +1,11 @@
 name: Generate Blacklist
 
 on:
+  # temporary to get action going
+  push:
+    branches:
+      - master
+
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
